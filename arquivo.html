@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>TESTE ENVIO WEBSERVICE</title>
+
+</head>
+<body>
+	<script src='js/jquery.js'>	</script>
+<script>
+$(document).ready(function() {
+  // url do servidor rest
+   var url_e = 'http://projetos/rest-arquivo/api/arquivo/';
+
+    // FORMULARIO DE ENVIO DE ARQUIVO 
+    $('#formUsuario').submit(function(){
+    	console.log('enviando..');
+       $('.msg').hide();
+       $('.mensagem').text();
+
+        var arquivo         = $('.arquivo').val();                
+        var nome_sistema    = $('.nome_sistema').val();
+        var descricao       = $('.descricao').val();
+        var formData = new FormData();
+        // Envia arquivo via AJAX
+         $.ajax({
+            type:"POST",            
+            url: url_e,           
+            data:{nome_sistema:nome_sistema, nome_dir:arquivo, descricao:descricao},            
+            success: function(d){                
+                var msg = d.message;
+                $('.msg').show();
+                $('.mensagem').text(msg); //retorna a mensagem referente a inserção do arquivo
+                alert(msg);
+            }                             
+        });
+        return false;
+    });
+    
+    // DIV QUE RETORNA TODOS OS ITENS LISTADOS 
+    $('.carrega_itens').click(function(){
+      $('.pagina').remove();      //limpa itens anteriores             
+       var valor = {d:1};      
+         $.ajax({
+            type:"GET",            
+            url: url_e,                                                 
+            success: function(d){            
+              console.log(d);
+                for(i=0; d.data.length>i; i++){
+                  console.log(d.data[i].nome_sistema);
+                  $('.exibe_itens').append("<div class='pagina'>"+d.data[i].nome_sistema+"</div>");
+                }
+                console.log(d.data[1].nome_sistema);
+            },  
+             dataType: "Json",            
+        });
+        
+    });
+
+    
+     // FORMULARIO DE PESQUISA DE ARQUIVO
+    $('#pesquisa_arquivo').submit(function(){      
+      $(".pesquisa").hide( "slow" ).remove();
+       var nome_arquivo         = $('.nome_arquivo').val();       
+       var nome_ = trim(nome_arquivo);       
+       var url_e = 'http://projetos/rest-arquivo/api/arquivo/'+nome_arquivo;
+       // 
+         $.ajax({
+            type:"GET",            
+            url: url_e +nome_arquivo, //adiciona o nome do arquivo na url de pesquisa                       
+            success: function(d){
+                for(i=0; d.data.length>i; i++){
+                  console.log(d.data[i].nome_sistema);
+                  $('.exibe_pesquisa').append("<div class='pesquisa'>"+d.data[i].nome_sistema+"</div>");
+                }                
+            },                    
+             dataType: "Json",            
+        });
+        return false;
+    });
+});
+// remove espaços em branco da pesquisa
+function trim(vlr){
+  return vlr.replace(" ","_");
+}
+  
+</script>
+
+<style>
+  .pagina{height: 40px; background: #ccc; margin-top: 5px; border: solid 1px #fff;}
+  .pesquisa{height: 40px; background: #BBFFFF; margin-top: 5px; border: solid 1px #fff;}
+  .conteudo{margin-top: 10px; min-height: 100px; background: #fff; border: solid 2px #CCC; padding: 5px; }
+</style>
+<ul>
+  <li>Envio de arquivo sem upload</li>
+  <li>Listando itens salvos</li>
+  <li>Pesquisa funcional</li>
+</ul>
+
+<div class="conteudo">
+  <p>Info: Faz o upload e salva o arquivo, mas a página e atualizada, isso não deve ocorrer.</p>
+  <p>Quando o form é submetido não pode ocorrer a atualização da página.</p>
+
+  <form  method="post" enctype="multipart/form-data" action="http://projetos/rest-arquivo/api/arquivo/">
+      <input type="file" id="fileUpload" name="fileUpload" />
+      <div>
+        <label for="">Nome</label>
+        <input type="text" name="nome_sistema" class="nome_sistema_a">
+      </div>  
+      <div>
+        <label for="">Descrição</label>
+        <input type="text" name="descricao" class="descricao_a">
+      </div>  
+      <input type="submit" value="Enviar" />    
+  </form>
+</div>
+<div class="msg" style="display: none">
+  <span class="mensagem"></span>
+</div>
+<div class="conteudo">
+  Info: As informações são salvas no servidor, mas o arquivo não é enviado para a pasta de upload do servidor
+<h1>Inserir arquivos</h1>
+<!-- <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data"> -->
+  <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data">
+  			<div>
+  				<label for="">Nome</label>
+  				<input type="text" name="nome_sistema" class="nome_sistema">
+  			</div>		
+  			<div>
+  				<label for="">Arquivo</label>
+  				<input name="arquivo" placeholder="Foto de perfil" type="file" class="arquivo" id='fileUpload'>
+  			</div>
+  			<div class="col-md-9">
+  				<label for="">Descrição</label>
+  				<input name="descricao" placeholder="Descrição do arquivo" type="text" class="descricao">
+  			</div>			
+  			<div>
+  				<input type="submit" value="Enviar" >
+  			</div>	  	
+  </form>
+</div>
+<div class="conteudo">
+  <h1>Retorna nome dos arquivos cadastrados</h1>
+  <button class="carrega_itens">carregar itens</button>
+  <div class="exibe_itens"></div>
+</div>
+<!-- pesquisa de documentos  -->
+<div class="conteudo">
+  <h1>Pesquisa de arquivo</h1>
+  Pesquisar arquivo
+  <form action="" id="pesquisa_arquivo">
+    <input type="text" class="nome_arquivo" name="nome_arquivo">
+    <input type="submit" value="Pesquisar">
+  </form>
+  <!-- recebe itens da pesquisa  -->
+  <div class="exibe_pesquisa"></div>
+</div>
+</body>
+</html>
