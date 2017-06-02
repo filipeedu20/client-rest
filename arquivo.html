@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>TESTE ENVIO WEBSERVICE</title>
-
+	<title>Teste Webservice</title>
 </head>
 <body>
 	<script src='js/jquery.js'>	</script>
@@ -55,9 +54,7 @@ $(document).ready(function() {
              dataType: "Json",            
         });
         
-    });
-
-    
+    });    
      // FORMULARIO DE PESQUISA DE ARQUIVO
     $('#pesquisa_arquivo').submit(function(){      
       $(".pesquisa").hide( "slow" ).remove();
@@ -96,11 +93,9 @@ function trim(vlr){
   <li>Listando itens salvos</li>
   <li>Pesquisa funcional</li>
 </ul>
-
 <div class="conteudo">
   <p>Info: Faz o upload e salva o arquivo, mas a página e atualizada, isso não deve ocorrer.</p>
   <p>Quando o form é submetido não pode ocorrer a atualização da página.</p>
-
   <form  method="post" enctype="multipart/form-data" action="http://projetos/rest-arquivo/api/arquivo/">
       <input type="file" id="fileUpload" name="fileUpload" />
       <div>
@@ -122,21 +117,21 @@ function trim(vlr){
 <h1>Inserir arquivos</h1>
 <!-- <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data"> -->
   <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data">
-  			<div>
-  				<label for="">Nome</label>
-  				<input type="text" name="nome_sistema" class="nome_sistema">
-  			</div>		
-  			<div>
-  				<label for="">Arquivo</label>
-  				<input name="arquivo" placeholder="Foto de perfil" type="file" class="arquivo" id='fileUpload'>
-  			</div>
-  			<div class="col-md-9">
-  				<label for="">Descrição</label>
-  				<input name="descricao" placeholder="Descrição do arquivo" type="text" class="descricao">
-  			</div>			
-  			<div>
-  				<input type="submit" value="Enviar" >
-  			</div>	  	
+    <div>
+      <label for="">Nome</label>
+      <input type="text" name="nome_sistema" class="nome_sistema">
+    </div>		
+    <div>
+      <label for="">Arquivo</label>
+      <input name="arquivo" placeholder="Foto de perfil" type="file" class="arquivo" id='fileUpload'>
+    </div>
+    <div class="col-md-9">
+      <label for="">Descrição</label>
+      <input name="descricao" placeholder="Descrição do arquivo" type="text" class="descricao">
+    </div>			
+    <div>
+      <input type="submit" value="Enviar" >
+    </div>	  	
   </form>
 </div>
 <div class="conteudo">
