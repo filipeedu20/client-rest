@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 	<meta charset="UTF-8">
+  
 	<title>Teste Webservice</title>
 </head>
 <body>
 	<script src='js/jquery.js'>	</script>
 <script>
-$(document).ready(function() {
+$(document).ready(function() {  
   // url do servidor rest
-   var url_e = 'http://projetos/rest-arquivo/api/arquivo/';
+   var url_e = 'http://localhost/rest-server/api/arquivo/';
 
     // FORMULARIO DE ENVIO DE ARQUIVO 
     $('#formUsuario').submit(function(){
@@ -51,7 +52,8 @@ $(document).ready(function() {
                 }
                 console.log(d.data[1].nome_sistema);
             },  
-             dataType: "Json",            
+             dataType: "Json",     
+                
         });
         
     });    
@@ -60,11 +62,11 @@ $(document).ready(function() {
       $(".pesquisa").hide( "slow" ).remove();
        var nome_arquivo         = $('.nome_arquivo').val();       
        var nome_ = trim(nome_arquivo);       
-       var url_e = 'http://projetos/rest-arquivo/api/arquivo/'+nome_arquivo;
+       
        // 
          $.ajax({
             type:"GET",            
-            url: url_e +nome_arquivo, //adiciona o nome do arquivo na url de pesquisa                       
+            url: url_e +'/'+nome_arquivo, //adiciona o nome do arquivo na url de pesquisa                       
             success: function(d){
                 for(i=0; d.data.length>i; i++){
                   console.log(d.data[i].nome_sistema);
@@ -96,15 +98,15 @@ function trim(vlr){
 <div class="conteudo">
   <p>Info: Faz o upload e salva o arquivo, mas a página e atualizada, isso não deve ocorrer.</p>
   <p>Quando o form é submetido não pode ocorrer a atualização da página.</p>
-  <form  method="post" enctype="multipart/form-data" action="http://projetos/rest-arquivo/api/arquivo/">
-      <input type="file" id="fileUpload" name="fileUpload" />
+  <form  method="post" enctype="multipart/form-data" action="http://localhost/rest-server/api/arquivo/" enctype="multipart/form-data">
+      <input type="file" id="fileUpload" name="nome_dir" class="nome_dir" />
       <div>
         <label for="">Nome</label>
-        <input type="text" name="nome_sistema" class="nome_sistema_a">
+        <input type="text" name="nome_sistema" class="nome_sistema">
       </div>  
       <div>
         <label for="">Descrição</label>
-        <input type="text" name="descricao" class="descricao_a">
+        <input type="text" name="descricao" class="descricao">
       </div>  
       <input type="submit" value="Enviar" />    
   </form>
@@ -115,7 +117,6 @@ function trim(vlr){
 <div class="conteudo">
   Info: As informações são salvas no servidor, mas o arquivo não é enviado para a pasta de upload do servidor
 <h1>Inserir arquivos</h1>
-<!-- <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data"> -->
   <form class="form-horizontal" method="POST"  id="formUsuario" id="formUsuario" enctype="multipart/form-data">
     <div>
       <label for="">Nome</label>
